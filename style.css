@@ -1,0 +1,18 @@
+#map {
+    width: 900px;
+    height: 400px;
+}
+
+circle {
+    fill: green;
+}
+
+line {
+    stroke: black;
+    stroke-width: 12;
+}
+
+line.selected {
+    stroke: blue;
+    stroke-width: 17;
+}
