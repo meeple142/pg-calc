@@ -2,15 +2,39 @@
 /*global d3, nodes, edges, console*/
 (function () {
     "use strict";
-    var svg = d3.select('#map').append('svg').attr("width", "100%").attr("height", "100%"),
-        cities = svg.selectAll('g.city').data(nodes),
+    var svg, cities, margin, picture,
+        dimensions = {
+            width: 900,
+            height: 400
+        },
+        clickCount = 0;
 
-        margin = {
-            top: 15,
-            right: 15,
-            bottom: 15,
-            left: 15
-        };
+
+    svg = d3.select('#map')
+        .style("width", dimensions.width + "px")
+        .style("height", dimensions.height + "px")
+        .append('svg')
+        .attr("width", "100%")
+        .attr("height", "100%");
+
+    picture = svg.append('image')
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("height", '100%')
+        .attr("width", '100%')
+        .attr("preserveAspectRatio", 'xMinYMin')
+        .attr("href", 'images/usa-mapCrop.jpg')
+        .attr("id", 'tempPic');
+
+
+    cities = svg.selectAll('g.city').data(nodes);
+
+    margin = {
+        top: 15,
+        right: 15,
+        bottom: 15,
+        left: 15
+    };
 
     function updateTotal() {
         document.getElementById('total').innerHTML = edges.reduce(function (numOut, edge) {
@@ -27,16 +51,16 @@
         //edges
         connections.enter().append('g').attr('class', 'connection').append('line')
             .attr('x1', function (d) {
-                return nodes[d.from - 1].x + margin.left;
+                return nodes[d.from - 1].x;
             })
             .attr('y1', function (d) {
-                return nodes[d.from - 1].y + margin.top;
+                return nodes[d.from - 1].y;
             })
             .attr('x2', function (d) {
-                return nodes[d.to - 1].x + margin.left;
+                return nodes[d.to - 1].x;
             })
             .attr('y2', function (d) {
-                return nodes[d.to - 1].y + margin.top;
+                return nodes[d.to - 1].y;
             })
             .on('click', function (d, i) {
                 d.selected = !d.selected;
@@ -53,11 +77,12 @@
     cities.enter().append('g').attr('class', 'city')
         .append('circle')
         .attr('cx', function (d) {
-            return d.x + margin.left;
+            return d.x;
         })
         .attr('cy', function (d) {
-            return d.y + margin.top;
+            return d.y;
         })
         .attr('r', 12);
+
 
 }());
